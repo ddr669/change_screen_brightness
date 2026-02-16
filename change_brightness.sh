@@ -9,6 +9,7 @@
 ####				 	 ######
 #####					#######
 
+
 help_me () {
 	echo
 	echo -e -n "**\t**\tchange_brightness.sh\t-__DDr669__-\n"
@@ -44,7 +45,7 @@ while getopts b: OPT; do
 done
 if [ $new_b -gt 11 ]; then
 	if [ $new_b -lt 45 ]; then
-		new_b=45
+		new_b=$new_b
 	fi
 fi
 if [ $new_b -lt 4 ] && [ $new_b != 0 ]; then
