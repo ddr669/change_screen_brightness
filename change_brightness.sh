@@ -50,9 +50,11 @@ fi
 while getopts b: OPT
 do
 	case "${OPT}" in
-		b)new_b="${OPTARG}"
+		b)
+			new_b="${OPTARG}"
 			;;
-		*)simple_help
+		*)
+			simple_help
 			break
 			;;
 	esac
@@ -70,16 +72,17 @@ if [ $new_b -lt 4 ] && [ $new_b != 0 ]; then
 	echo "and replace your eyes by the void.-|[!]"
 fi
 case $new_b in
-	10)new_b="1.0"
+	10)
+		new_b="1.0"
 		echo "[*] Change brightness to $new_b [*]"
 		xrandr --output $_SCREEN --brightness $new_b
 		;;
 	0)
 		;;
-	*)new_b="0.$new_b"
+	*)
+		new_b="0.$new_b"
 		echo "[*] Change brightness to $new_b [*]"
 		xrandr --output $_SCREEN --brightness $new_b
 		;;
 esac
-
 echo
