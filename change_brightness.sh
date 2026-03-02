@@ -59,6 +59,10 @@ do
 			;;
 	esac
 done
+if [[ $new_b =~ ^[+-]?[0-9]+\.?[0-9]*$ ]];
+then
+	new_b="${new_b: -1}"
+fi
 if [ $new_b -gt 11 ];
 then
 	if [ $new_b -lt 45 ];
