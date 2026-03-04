@@ -27,12 +27,12 @@ get_screen (){
 	local screenL=$1
 	echo $screenL	
 }
-new_b=0
+new_b=${$2:-5}
 com_ret=$(xrandr --query | grep '\bconnected\b')
 
 _SCREEN=$(get_screen $com_ret)
 echo "[*] Default monitor device: [$_SCREEN] [*]"
-var=$1
+var=${1:--b}
 
 if [ ${#var} -eq 0 ];
 then
