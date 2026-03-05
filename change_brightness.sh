@@ -5,9 +5,9 @@
 ## change_brithness_screen	###
 # -**- Author:__DDr669__ -**-##
 ##		date:__/__/__    	###
-###						   ####
-####				 	 ######
-#####					#######
+###........................####
+####.....................######
+#####...................#######
 
 help_me () {
 	echo
@@ -17,22 +17,26 @@ help_me () {
 	echo -e -n "Use to to change screenbrightness. \n\n"
 	echo -e -n "Parameters:\n"
 	echo -e -n "\t-b Number - brightness * A number between 0-10.\n"
+	echo -e -n "\t\t\tOr a float between 1.0 - 0.0\n"
 	echo -e -n "\t-h - help.\n"
 	
 }
+
 simple_help () {	
 	echo "[!] Option -b without arguments."
 }
+
 get_screen (){
 	local screenL=$1
 	echo $screenL	
 }
-new_b=${$2:-5}
-com_ret=$(xrandr --query | grep '\bconnected\b')
 
+new_b=${2:-5}
+com_ret=$(xrandr --query | grep '\bconnected\b')
 _SCREEN=$(get_screen $com_ret)
 echo "[*] Default monitor device: [$_SCREEN] [*]"
 var=${1:--b}
+
 
 if [ ${#var} -eq 0 ];
 then
@@ -41,7 +45,7 @@ then
 fi
 if [ ${#var} -gt 1 ];
 then
-	if [ $1 == '-h' ] || [ $1 == '--help' ];
+	if [[ $1 == '-h' ]] || [[ $1 == '--help' ]];
 	then
 		help_me
 		exit
@@ -61,27 +65,30 @@ do
 done
 if [[ $new_b =~ ^[+-]?[0-9]+\.?[0-9]*$ ]];
 then
-	new_b="${new_b: -1}"
-fi
-if [ $new_b -gt 11 ];
-then
-	if [ $new_b -lt 45 ];
-	then
-		new_b=$new_b
+	new_b0=${new_b: -1}
+	if [[ $new_b0 == "." ]]; then
+		new_b0=0
 	fi
+	new_b2=${new_b: 0:1}
+	if [ $new_b0 -eq 0 ]; then
+		new_b0=$new_b2
+	fi
+	new_b=$new_b0
 fi
-if [ $new_b -lt 4 ] && [ $new_b != 0 ]; then
-	tmp_val=$new_b
-	echo -n "[!]|-The darkness is dangerous "
-	echo "and replace your eyes by the void.-|[!]"
-fi
+
 case $new_b in
+	1)
+		new_b="1.0"
+		echo "[*] Change brightness to $new_b [*]"
+		xrandr --output $_SCREEN --brightness $new_b
+		;;
 	10)
 		new_b="1.0"
 		echo "[*] Change brightness to $new_b [*]"
 		xrandr --output $_SCREEN --brightness $new_b
 		;;
 	0)
+		echo "[!] cannot change screen brightness to zero! [!]"
 		;;
 	*)
 		new_b="0.$new_b"
